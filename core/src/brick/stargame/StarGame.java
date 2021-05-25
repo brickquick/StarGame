@@ -16,7 +16,7 @@ public class StarGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		imgGalaxy = new Texture("The-Coolest-Photos-of-Andromeda-Shot-by-Herschel-in-Infrared-Gallery-2.jpg");
+		imgGalaxy = new Texture("Andromeda-Galaxy.jpg");
 	}
 
 	@Override
