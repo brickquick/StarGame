@@ -16,7 +16,7 @@ public class MenuScreen extends BaseScreen {
     private Texture bg;
     private Vector2 pos;
     private Vector2 v;
-    private Vector2 point;
+    private Vector2 touch;
     private Vector2 tmp;
 
     @Override
@@ -26,7 +26,7 @@ public class MenuScreen extends BaseScreen {
         img2 = new Texture("badlogic.jpg");
         bg = new Texture("Andromeda-Galaxy.jpg");
         pos = new Vector2((float) img.getWidth() / 4, (float) img.getHeight() / 4);
-        point = new Vector2(pos.x, pos.y);
+        touch = new Vector2(pos.x, pos.y);
         v = new Vector2();
         tmp = new Vector2();
     }
@@ -39,13 +39,13 @@ public class MenuScreen extends BaseScreen {
         batch.draw(bg, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(img, pos.x - (float) img.getWidth() / 2 / 2, pos.y - (float) img.getHeight() / 2 / 2,
                 (float) img.getWidth() / 2, (float) img.getHeight() / 2);
-        tmp.set(point);
+        tmp.set(touch);
         if (tmp.sub(pos).len() <= v.len()) {
-            pos.set(point);
+            pos.set(touch);
             v.setZero();
         } else {
             pos.add(v);
-            batch.draw(img2, point.x - (float) img2.getWidth() / 50 / 2, point.y - (float) img2.getHeight() / 50 / 2,
+            batch.draw(img2, touch.x - (float) img2.getWidth() / 50 / 2, touch.y - (float) img2.getHeight() / 50 / 2,
                     (float) img2.getWidth() / 50, (float) img2.getHeight() / 50);
         }
         batch.end();
@@ -53,8 +53,8 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        point.set(screenX, Gdx.graphics.getHeight() - screenY);
-        v.set(point.cpy().sub(pos)).setLength(VELOCITY);
+        touch.set(screenX, Gdx.graphics.getHeight() - screenY);
+        v.set(touch.cpy().sub(pos)).setLength(VELOCITY);
         return false;
     }
 
