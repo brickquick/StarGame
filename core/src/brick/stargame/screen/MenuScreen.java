@@ -17,7 +17,7 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
-        bg = new Texture("textures/bg.png");
+        bg = new Texture("Andromeda-Galaxy.jpg");
         background = new Background(bg);
     }
 
