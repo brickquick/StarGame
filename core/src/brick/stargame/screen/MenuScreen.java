@@ -39,16 +39,16 @@ public class MenuScreen extends BaseScreen {
         batch.draw(bg, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(img, pos.x - (float) img.getWidth() / 2 / 2, pos.y - (float) img.getHeight() / 2 / 2,
                 (float) img.getWidth() / 2, (float) img.getHeight() / 2);
+        batch.draw(img2, touch.x - (float) img2.getWidth() / 50 / 2, touch.y - (float) img2.getHeight() / 50 / 2,
+                (float) img2.getWidth() / 50, (float) img2.getHeight() / 50);
+        batch.end();
         tmp.set(touch);
         if (tmp.sub(pos).len() <= v.len()) {
             pos.set(touch);
             v.setZero();
         } else {
             pos.add(v);
-            batch.draw(img2, touch.x - (float) img2.getWidth() / 50 / 2, touch.y - (float) img2.getHeight() / 50 / 2,
-                    (float) img2.getWidth() / 50, (float) img2.getHeight() / 50);
         }
-        batch.end();
     }
 
     @Override
