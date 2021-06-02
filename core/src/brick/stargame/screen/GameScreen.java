@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import brick.stargame.base.BaseScreen;
 import brick.stargame.math.Rect;
 import brick.stargame.sprite.Background;
+import brick.stargame.sprite.MainShip;
 import brick.stargame.sprite.Star;
 
 public class GameScreen extends BaseScreen {
@@ -18,6 +19,7 @@ public class GameScreen extends BaseScreen {
 
     private Background background;
     private Star[] stars;
+    private MainShip mainShip;
 
     @Override
     public void show() {
@@ -29,6 +31,7 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
+        mainShip = new MainShip(atlas);
     }
 
     @Override
@@ -44,6 +47,7 @@ public class GameScreen extends BaseScreen {
         for (Star star : stars) {
             star.resize(worldBounds);
         }
+        mainShip.resize(worldBounds);
     }
 
     @Override
@@ -51,6 +55,7 @@ public class GameScreen extends BaseScreen {
         super.dispose();
         bg.dispose();
         atlas.dispose();
+        batch.dispose();
     }
 
     private void update(float delta) {
@@ -66,6 +71,7 @@ public class GameScreen extends BaseScreen {
         for (Star star : stars) {
             star.draw(batch);
         }
+        mainShip.draw(batch);
         batch.end();
     }
 }
