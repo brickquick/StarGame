@@ -15,7 +15,6 @@ public class MainShip extends Sprite {
 
     private final Vector2 v;
     private Vector2 touch;
-    private Vector2 tmp;
 
     private int keycode;
     private boolean controlKeyDown = false;
@@ -23,7 +22,6 @@ public class MainShip extends Sprite {
     public MainShip(TextureAtlas atlas) {
         super(new TextureRegion(atlas.findRegion("main_ship"), 0, 0, 195, 287));
         v = new Vector2();
-        tmp = new Vector2();
         touch = new Vector2();
     }
 
