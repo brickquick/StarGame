@@ -1,6 +1,7 @@
 package brick.stargame.sprite;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -21,6 +22,8 @@ public class MainShip extends Sprite {
     private boolean pressedLeft;
     private boolean pressedRight;
 
+    private float shootTimer;
+
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
@@ -30,12 +33,15 @@ public class MainShip extends Sprite {
     private Vector2 bulletV;
     private Vector2 bulletPos;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
+    private Sound bulletSound;
+
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletPool = bulletPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletV = new Vector2(0, 0.5f);
         this.bulletPos = new Vector2();
+        this.bulletSound = bulletSound;
     }
 
     @Override
@@ -55,6 +61,12 @@ public class MainShip extends Sprite {
         if (getLeft() < worldBounds.getLeft()) {
             setLeft(worldBounds.getLeft());
             stop();
+        }
+
+        shootTimer += delta;
+        if (shootTimer > 0.3f) {
+            shootTimer = 0f;
+            shoot();
         }
 //        if (getLeft() > worldBounds.getRight()) {
 //            setRight(worldBounds.getLeft());
@@ -161,5 +173,6 @@ public class MainShip extends Sprite {
         Bullet bullet = bulletPool.obtain();
         bulletPos.set(pos.x, pos.y + getHalfHeight());
         bullet.set(this, bulletRegion, bulletPos, bulletV, worldBounds, 1, 0.01f);
+        bulletSound.play();
     }
 }

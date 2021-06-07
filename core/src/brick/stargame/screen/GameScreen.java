@@ -1,5 +1,7 @@
 package brick.stargame.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -22,6 +24,8 @@ public class GameScreen extends BaseScreen {
     private Background background;
     private Star[] stars;
 
+    private Sound bulletSound;
+
     private BulletPool bulletPool;
     private MainShip mainShip;
 
@@ -31,12 +35,15 @@ public class GameScreen extends BaseScreen {
         bg = new Texture("textures/bg.png");
         background = new Background(bg);
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
+
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
+
         stars = new Star[STAR_COUNT];
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
         bulletPool = new BulletPool();
-        mainShip = new MainShip(atlas, bulletPool);
+        mainShip = new MainShip(atlas, bulletPool, bulletSound);
     }
 
     @Override
