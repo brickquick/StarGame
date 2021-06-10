@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import brick.stargame.base.SpritesPool;
 import brick.stargame.math.Rect;
 import brick.stargame.sprite.EnemyShip;
+import brick.stargame.sprite.MainShip;
 
 public class EnemyPool extends SpritesPool<EnemyShip> {
 
@@ -16,6 +17,11 @@ public class EnemyPool extends SpritesPool<EnemyShip> {
         this.worldBounds = worldBounds;
         this.bulletPool = bulletPool;
         this.bulletSound = bulletSound;
+    }
+
+    @Override
+    public void updateActiveSprites(float delta) {
+        super.updateActiveSprites(delta);
     }
 
     @Override

@@ -32,6 +32,7 @@ public class EnemyShip extends Ship {
         if (worldBounds.isOutside(this)) {
             destroy();
         }
+
     }
 
     public void set(
@@ -56,7 +57,5 @@ public class EnemyShip extends Ship {
         this.hp = hp;
         v.set(0, -0.3f);
     }
-
-
 
 }
