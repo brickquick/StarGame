@@ -130,11 +130,11 @@ public class GameScreen extends BaseScreen {
         for (EnemyShip enemyShip : enemyPool.getActiveObjects()) {
             tmpMS.x = mainShip.pos.x;
             tmpMS.y = mainShip.pos.y + mainShip.getHalfHeight();
-            if (enemyShip.isMe(tmpMS)) {
+            if (enemyShip.isMe(tmpMS) || mainShip.isMe(enemyShip.pos)) {
                 enemyShip.destroy();
             }
             for (Bullet bullet : bulletPool.getActiveObjects()) {
-                if (enemyShip.isMe(bullet.pos)) {
+                if (enemyShip.isMe(bullet.pos) || bullet.isMe(enemyShip.pos)) {
                     enemyShip.destroy();
                     bullet.destroy();
                 }
