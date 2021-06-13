@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import brick.stargame.base.Ship;
 import brick.stargame.math.Rect;
 import brick.stargame.pool.BulletPool;
+import brick.stargame.pool.ExplosionPool;
 
 public class MainShip extends Ship {
 
@@ -22,8 +23,9 @@ public class MainShip extends Ship {
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound) {
+    public MainShip(TextureAtlas atlas, ExplosionPool explosionPool, BulletPool bulletPool, Sound bulletSound) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
+        this.explosionPool = explosionPool;
         this.bulletPool = bulletPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletSound = bulletSound;
@@ -47,7 +49,6 @@ public class MainShip extends Ship {
     @Override
     public void update(float delta) {
         super.update(delta);
-//        pos.mulAdd(v, delta);
         bulletPos.set(pos.x, pos.y + getHalfHeight());
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
@@ -63,6 +64,15 @@ public class MainShip extends Ship {
 //        if (getRight() < worldBounds.getLeft()) {
 //            setLeft(worldBounds.getRight());
 //        }
+    }
+
+    public boolean isBulletCollision(Rect bullet) {
+        return !(
+                bullet.getRight() < getLeft()
+                        || bullet.getLeft() > getRight()
+                        || bullet.getBottom() > pos.y
+                        || bullet.getTop() < getBottom()
+        );
     }
 
     @Override
@@ -114,9 +124,6 @@ public class MainShip extends Ship {
             case Input.Keys.RIGHT:
                 pressedRight = true;
                 moveRight();
-                break;
-            case Input.Keys.W:
-                shoot();
                 break;
         }
         return false;
