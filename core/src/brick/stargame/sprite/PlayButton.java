@@ -29,6 +29,6 @@ public class PlayButton extends ScaledButton {
 
     @Override
     protected void action() {
-        game.setScreen(new GameScreen());
+        game.setScreen(new GameScreen(this.game));
     }
 }

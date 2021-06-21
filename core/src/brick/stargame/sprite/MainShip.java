@@ -8,8 +8,11 @@ import com.badlogic.gdx.math.Vector2;
 import brick.stargame.base.Ship;
 import brick.stargame.math.Rect;
 import brick.stargame.pool.BulletPool;
+import brick.stargame.pool.ExplosionPool;
 
 public class MainShip extends Ship {
+
+    private static final int HP = 100;
 
     private static final float HEIGHT = 0.15f;
     private static final float PADDING = 0.05f;
@@ -22,8 +25,9 @@ public class MainShip extends Ship {
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound) {
+    public MainShip(TextureAtlas atlas, ExplosionPool explosionPool, BulletPool bulletPool, Sound bulletSound) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
+        this.explosionPool = explosionPool;
         this.bulletPool = bulletPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletSound = bulletSound;
@@ -34,7 +38,18 @@ public class MainShip extends Ship {
         reloadInterval = RELOAD_INTERVAL;
         bulletHeight = 0.01f;
         damage = 1;
-        hp = 100;
+        hp = HP;
+    }
+
+    public void startNewGame() {
+        this.hp = HP;
+        this.pos.x = worldBounds.pos.x;
+        stop();
+        pressedLeft = false;
+        pressedRight = false;
+        leftPointer = INVALID_POINTER;
+        rightPointer = INVALID_POINTER;
+        flushDestroy();
     }
 
     @Override
@@ -47,7 +62,6 @@ public class MainShip extends Ship {
     @Override
     public void update(float delta) {
         super.update(delta);
-//        pos.mulAdd(v, delta);
         bulletPos.set(pos.x, pos.y + getHalfHeight());
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
@@ -63,6 +77,15 @@ public class MainShip extends Ship {
 //        if (getRight() < worldBounds.getLeft()) {
 //            setLeft(worldBounds.getRight());
 //        }
+    }
+
+    public boolean isBulletCollision(Rect bullet) {
+        return !(
+                bullet.getRight() < getLeft()
+                        || bullet.getLeft() > getRight()
+                        || bullet.getBottom() > pos.y
+                        || bullet.getTop() < getBottom()
+        );
     }
 
     @Override
@@ -114,9 +137,6 @@ public class MainShip extends Ship {
             case Input.Keys.RIGHT:
                 pressedRight = true;
                 moveRight();
-                break;
-            case Input.Keys.W:
-                shoot();
                 break;
         }
         return false;
